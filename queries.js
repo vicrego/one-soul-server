@@ -4,13 +4,6 @@ const { neon } = require('@neondatabase/serverless');
 const { PGHOST, PGDATABASE, PGUSER, PGPASSWORD } = process.env;
 const sql = neon(`postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}/${PGDATABASE}?sslmode=require`);
 
-const pool = new Pool({
-  connectionString: sql,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-
 
 async function getCourses() {
     const result = await sql`SELECT * FROM courses`;
@@ -42,6 +35,26 @@ async function getChallenges() {
   const result = await sql`SELECT * FROM challenges`;
   return result;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /*
