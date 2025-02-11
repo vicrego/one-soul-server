@@ -30,6 +30,7 @@ if (config.use_env_variable/*sql*/) {
       acquire: 30000, // Maximum time (in milliseconds) to try to get a connection before throwing an error
       idle: 10000 // Maximum time (in milliseconds) that a connection can be idle before being released
     },
+    logging: console.log
   });
 
 } else {

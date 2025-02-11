@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User.init({
-    
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -26,9 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         args: true,
         msg: "Username must be unique"
       },
-      
-      
-      
       validate: {
         notNull: {
           msg: "Username is required"
@@ -69,7 +65,6 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    //lastName: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

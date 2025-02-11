@@ -14,6 +14,7 @@ const { Sequelize } = require('sequelize');
 
 //const { default: db } = require('../../models/index');
 const db = require('../../models/index');
+const { raw } = require('express');
 
 
 /*
@@ -118,6 +119,7 @@ passport.use(
           where: {
             username,
           },
+          raw: true
         }).then(user => {
           if (user === null) {
             return done(null, false, { message: 'bad username' });
@@ -138,7 +140,156 @@ passport.use(
   ),
 );
 
+/*
+const passportJWT = require("passport-jwt");
+const JWTStrategy   = passportJWT.Strategy; // Defines how JWTs are verified
+const ExtractJWT = passportJWT.ExtractJwt; // Extracts JWT from incoming request
+passport.use("jwt", new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: process.env.JWT_SECRET,
+  },
+  function (jwtPayload, cb) {
+    console.log("jwtPayload", jwtPayload)
+    //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+    //return db.User.findOneById(jwtPayload.id)
+    return db.User.findOne({
+      where: {
+        username,
+      }
+    })
+    .then(user => {
+      console.log("hereeee")
+      
+      return cb(null, user);
+    })
+    .catch(err => {
+      console.log("hereeee")
+      return cb(err);
+    });
+  }
+));
+*/
 
+
+
+
+const cookieExtractor = req => {
+  let jwt = null 
+  try {
+    if (req && req.headers.cookie) {
+        jwt = req.headers.cookie;
+        var jwtSliced = jwt.slice(4);
+    }
+  } catch (error) {
+    console.error("Error extracting JWT from cookie:", error);
+  };
+  return jwtSliced
+};
+
+const userId = req => {
+  let userId = null 
+  try {
+    if (req && req.body) {
+      userId = req.body;
+        
+    }
+  } catch (error) {
+    console.error("Error extracting JWT from cookie:", error);
+  };
+  return userId;
+};
+
+
+const secret = process.env.JWT_SECRET;
+
+passport.use('jwt', new JwtStrategy({
+  usernameField: "username",
+  jwtFromRequest: cookieExtractor,
+  userId: userId,
+  secretOrKey: secret,
+}, (jwtPayload, done) => {
+  const { exp } = jwtPayload
+  if (Date.now() > exp * 1000) {
+    done('Unauthorized', false)
+  }
+  done(null, jwtPayload)
+}));
+/*
+
+passport.use('jwt', new JwtStrategy({
+  usernameField: "username",
+  jwtFromRequest: cookieExtractor,
+  secretOrKey: secret
+}, (username, jwtPayload, done) => {
+  console.log("jwtP ID", jwtPayload.id)
+  db.User.findOne({
+    where: {
+      id: jwtPayload.id, // Use the ID from jwtPayload to find the user
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return done(null, false, { message: 'User not found' });
+      }
+      const { exp } = jwtPayload;
+      if (Date.now() > exp * 1000) {
+        return done(null, false, { message: 'Token expired' });
+      }
+      return done(null, user); // Pass the FULL user object to the next middleware
+    })
+    .catch((err) => {
+      console.error("Error finding user:", err);
+      return done(err);
+    });
+    /*
+  console.log("jwtPayload",jwtPayload)
+  const { exp } = jwtPayload
+  if (Date.now() > exp * 1000) {
+    done('Unauthorized', false)
+  }
+*/
+  /*try{
+    db.User.findOne({
+      where: {
+        username,
+      },
+    }).then((user)=> {
+      console.log("user",user)
+    })
+  }
+  .catch((err) => {
+    console.log(err)
+  })*/
+  //done(null, jwtPayload)
+//}));
+
+
+//TRYING TO REACH USER INFO
+/*
+passport.use('jwt', new JwtStrategy({
+  jwtFromRequest: cookieExtractor,
+  usernameField: "username",
+  secretOrKey: secret,
+}, ( jwtPayload, username, done) => {
+  try {
+    db.User.findOne({
+    where: {
+      username,
+    }
+  }).then((user) => {
+    console.log("use herer", user)
+    const { exp } = jwtPayload
+    if (Date.now() > exp * 1000) {
+      done('Unauthorized', false)
+    }
+    done(null, jwtPayload)
+  })
+ } catch (error) {
+    console.error(error)
+    return done(error, false)
+  }
+}));
+*/
 /*
 // JWT Strategy
 const cookieExtractor = function(req) {
@@ -177,27 +328,3 @@ passport.use("local",
 
 */
 module.exports = passport;
-
-//var crypto = require('crypto');
-/*
-passport.use(new LocalStrategy(function verify(username, password, cb) {
-  console.log("heyyy")
-
-  db.User.get('SELECT * FROM Users WHERE username = ?', [ username ], function(err, user) {
-    if (err) { return cb(err); }
-    if (!user) { return cb(null, false, { message: 'Incorrect username or password.' }); }
-    
-    crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
-      if (err) { return cb(err); }
-      if (!crypto.timingSafeEqual(user.hashed_password, hashedPassword)) {
-        return cb(null, false, { message: 'Incorrect username or password.' });
-      }
-      return cb(null, user);
-    });
-  });
-}));
-
-const opts = {
-  jwtFromRequest: ExtractJWT.fromAuthHeaderWithScheme('JWT'),
-  secretOrKey: jwtSecret.secret,
-};*/

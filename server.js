@@ -1,12 +1,4 @@
 /*
-const PORT = process.env.PORT || 5000;
-
-app.use(bodyParser.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello from MERN stack!');
-});
-
 //connecting mongo with mongoose
 
 const mongoose = require('mongoose');
@@ -22,24 +14,12 @@ mongoose.connect('mongodb://localhost/my-mern-app', {
 /*
 
 
-const PORT = process.env.PORT || 5050;
-const app = express();
+
 
 app.use(express.json());
 app.use("/record", records);
 
-// start the Express server
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
-
-
 */
-
-
-//This is the entry point of your application. It sets up the Express app,
-//configures middleware, defines routes, handles errors, and starts the server.
-
 
 const express = require("express");
 var bodyParser = require('body-parser')
@@ -54,13 +34,20 @@ const corsOptions = {
 };
 app.use(cors(corsOptions)); // Use cors middleware ONLY
 
+
+//THIS UNDERNEATH SHOULD PROBABLY BE DELETED
 app.use(session({
-  secret: 'keyboard cat',
+  httpOnly: true,
+  secret: 'keyboard cat', //CHANGE THIS!
   resave: false,
   saveUninitialized: false,
   cookie: { secure: true }
 }));
 
+
+const passport = require('./api/config/passport');
+app.use(passport.initialize()); // initializes authentication module
+app.use(passport.session())
 
 
 app.use(bodyParser.json());
@@ -85,9 +72,7 @@ app.delete("/delete-user", db.deleteUser);
 var morgan = require('morgan');
 const helmet = require("helmet");
 
-const passport = require('./api/config/passport');
-app.use(passport.initialize()); // initializes authentication module
-app.use(passport.session())
+
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
