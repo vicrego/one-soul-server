@@ -79,8 +79,7 @@ router.put('/userProgressCounter', passport.authenticate('jwt', { session: false
   
   const { courseId, chapterProgress } = req.body;
   const userId = req.user.userId;
-  
-  
+ 
   try {
     console.log("userCourse", userId)
     console.log("courseId", courseId)
@@ -145,33 +144,34 @@ router.post('/user', async (req, res, next) => {
 //});
 
 router.post("/register", async (req, res) => {
+  console.log("req",req)
   
   const username = req.body.username;
   const password = req.body.password;
   const email = req.body.email; // Assuming you want to store email as well
 
-    try {
-      const existingUser = await db.User.findOne({ where: { username } }); // Check for existing user using Sequelize
-      if (existingUser) {
-        // User already exists
-        return res.send({ success: false, message: "User already exists" });
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await db.User.create({ username, email, password: hashedPassword }); // Create new user using Sequelize
-      //res.send({ success: true, message: "User registered" }); // Send success message
-      // Immediately authenticate the new user
-      req.login(newUser, { session: false }, (err) => { // Use req.login to trigger authentication immediately
-        if (err) {
-          return next(err);
-        }
-        const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '48h' });
-        res.cookie('jwt', token, { httpOnly: true, secure: true, maxAge: 48 * 60 * 60 * 1000 });
-        return res.status(201).json({ message: "User registered and logged in", userId: newUser.id });
-      });
-    } catch (err){
-      console.log("err",err)
-      res.status(500).send({ success: false, message: "Error registering user" }); // Handle errors gracefully
+  try {
+    const existingUser = await db.User.findOne({ where: { username } }); // Check for existing user using Sequelize
+    if (existingUser) {
+      // User already exists
+      return res.send({ success: false, message: "User already exists" });
     }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await db.User.create({ username, email, password: hashedPassword }); // Create new user using Sequelize
+    //res.send({ success: true, message: "User registered" }); // Send success message
+    // Immediately authenticate the new user
+    req.login(newUser, { session: false }, (err) => { // Use req.login to trigger authentication immediately
+      if (err) {
+        return next(err);
+      }
+      const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '48h' });
+      res.cookie('jwt', token, { httpOnly: true, secure: true, maxAge: 48 * 60 * 60 * 1000 });
+      return res.status(201).json({ message: "User registered and logged in", userId: newUser.id });
+    });
+  } catch (err){
+    console.log("err",err)
+    res.status(500).send({ success: false, message: "Error registering user" }); // Handle errors gracefully
+  }
 });
 
 
