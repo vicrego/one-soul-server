@@ -15,3 +15,7 @@ npx sequelize-cli migration:generate --name [name of the Model]
 
 Creation of table on database:
 - Naming must use singular to the modal em plural to the table.
+
+Production:
+Use
+npm install --omit=dev
