@@ -17,7 +17,8 @@ const db = {};
 let sequelize;
 if (config.use_env_variable/*sql*/) {
   sequelize = new Sequelize(process.env[config.use_env_variable], {
-    host: 'localhost',
+    //host: 'localhost',
+    host: process.env.PGHOST || "localhost",
     //dialect: PostgresDialect,
     dialectOptions: {
       ssl: {
