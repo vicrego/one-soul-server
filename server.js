@@ -29,7 +29,8 @@ require("dotenv").config();
 var cors = require('cors');
 
 const corsOptions = {
-  origin: 'http://localhost:3030', // Or process.env.REACT_APP_URL for production
+  //origin: 'http://localhost:3030', // Or process.env.REACT_APP_URL for production
+  origin: 'https://one-self.netlify.app', // PRODUCTION
   credentials: true, // Important for cookies and sessions
 };
 app.use(cors(corsOptions)); // Use cors middleware ONLY
