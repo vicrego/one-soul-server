@@ -15,7 +15,7 @@ module.exports = {
     */
     username: process.env.PGUSER,
     password: process.env.PGPASSWORD,
-    database: process.env.SQL,
+    database: process.env.PGDATABASE,
     host: process.env.PGHOST,
     url: process.env.SQL,
     dialect: 'postgres',
@@ -24,7 +24,7 @@ module.exports = {
   production: {
     username: process.env.PGUSER,
     password: process.env.PGPASSWORD,
-    database: process.env.SQL,
+    database: process.env.PGDATABASE,
     host: process.env.PGHOST,
     dialect: 'postgres',
     dialectOptions: { ssl: { require: true } },
