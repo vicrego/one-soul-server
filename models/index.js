@@ -29,7 +29,7 @@ if (config.use_env_variable/*sql*/) {
       max: 5, // Maximum number of connections in the pool
       min: 0, // Minimum number of connections in the pool
       acquire: 30000, // Maximum time (in milliseconds) to try to get a connection before throwing an error
-      idle: 10000 // Maximum time (in milliseconds) that a connection can be idle before being released
+      idle: 200000 // Maximum time (in milliseconds) that a connection can be idle before being released
     },
     logging: console.log
   });
