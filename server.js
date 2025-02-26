@@ -24,7 +24,8 @@ app.use("/record", records);
 const express = require("express");
 var bodyParser = require('body-parser')
 const app = express();
-const session = require('express-session')
+//const session = require('express-session');
+const session = require('cookie-session');
 require("dotenv").config();
 var cors = require('cors');
 

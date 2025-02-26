@@ -18,25 +18,6 @@ const { raw } = require('express');
 
 
 /*
-passport.use(new LocalStrategy({
-  usernameField: 'username',
-  passwordField: 'password'
-},
-
-function (username, password, cb) {
-  //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
-  return db.User.findOne({username, password})
-     .then(user => {
-         if (!user) {
-             return cb(null, false, {message: 'Incorrect username or password.'});
-         }
-         return cb(null, user, {message: 'Logged In Successfully'});
-    })
-    .catch(err => cb(err));
-}
-));
-*/
-/*
 var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = 'secret';
@@ -92,18 +73,6 @@ passport.use(
 module.exports = passport;
 */
 //const User = new Sequelize(db) // Example for postgres
-/*
-const test = async () => {
-  try {
-    await User.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
-test();
-*/
-
 
 passport.use(
   'local',

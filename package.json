@@ -4,6 +4,7 @@
     "@sequelize/postgres": "^7.0.0-alpha.43",
     "@types/passport-local": "^1.0.38",
     "bcrypt": "^5.1.1",
+    "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
