@@ -55,8 +55,6 @@ router.post('/user', passport.authenticate('jwt', { session: false }), async (re
   }
 });
 
-
-
 router.get('/getUserProgress', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const userId = req.user.userId;
   try {
@@ -72,8 +70,6 @@ router.get('/getUserProgress', passport.authenticate('jwt', { session: false }),
     res.status(500).send({ success: false, message: "Internal Server Error" }); // Handle errors gracefully
   }
 });
-
-
 
 router.put('/userProgressCounter', passport.authenticate('jwt', { session: false }), async (req, res) => {
   
@@ -96,8 +92,6 @@ router.put('/userProgressCounter', passport.authenticate('jwt', { session: false
     res.status(500).send({ success: false, message: "Internal Server Error" }); // Handle errors gracefully
   }
 });
-
-
 
 
 /*

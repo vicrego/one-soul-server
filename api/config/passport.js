@@ -10,7 +10,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
-const { Sequelize } = require('sequelize');
 
 //const { default: db } = require('../../models/index');
 const db = require('../../models/index');
@@ -44,35 +43,6 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
 }));
 
 */
-//module.exports = passport;
-/*
-passport.use(
-  'local',
-  new JwtStrategy(opts, (jwt_payload, done) => {
-    console.log("heree")
-    try {
-      db.User.findOne({
-        where: {
-          id: jwt_payload.id,
-        },
-      }).then(user => {
-        if (user) {
-          console.log('user found in db in passport');
-          done(null, user);
-        } else {
-          console.log('user not found in db');
-          done(null, false);
-        }
-      });
-    } catch (err) {
-      done(err);
-    }
-  }),
-);
-
-module.exports = passport;
-*/
-//const User = new Sequelize(db) // Example for postgres
 
 passport.use(
   'local',
@@ -183,54 +153,7 @@ passport.use('jwt', new JwtStrategy({
   }
   done(null, jwtPayload)
 }));
-/*
 
-passport.use('jwt', new JwtStrategy({
-  usernameField: "username",
-  jwtFromRequest: cookieExtractor,
-  secretOrKey: secret
-}, (username, jwtPayload, done) => {
-  console.log("jwtP ID", jwtPayload.id)
-  db.User.findOne({
-    where: {
-      id: jwtPayload.id, // Use the ID from jwtPayload to find the user
-    },
-  })
-    .then((user) => {
-      if (!user) {
-        return done(null, false, { message: 'User not found' });
-      }
-      const { exp } = jwtPayload;
-      if (Date.now() > exp * 1000) {
-        return done(null, false, { message: 'Token expired' });
-      }
-      return done(null, user); // Pass the FULL user object to the next middleware
-    })
-    .catch((err) => {
-      console.error("Error finding user:", err);
-      return done(err);
-    });
-    /*
-  console.log("jwtPayload",jwtPayload)
-  const { exp } = jwtPayload
-  if (Date.now() > exp * 1000) {
-    done('Unauthorized', false)
-  }
-*/
-  /*try{
-    db.User.findOne({
-      where: {
-        username,
-      },
-    }).then((user)=> {
-      console.log("user",user)
-    })
-  }
-  .catch((err) => {
-    console.log(err)
-  })*/
-  //done(null, jwtPayload)
-//}));
 
 
 //TRYING TO REACH USER INFO

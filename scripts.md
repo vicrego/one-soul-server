@@ -17,4 +17,4 @@ Creation of table on database:
 - Naming must use singular to the modal em plural to the table.
 
 Production:
-Do not send node_module on github. Use npm install on the build command from Render server
+Do not send node_module on github. Use npm install on the build command from Render server"
