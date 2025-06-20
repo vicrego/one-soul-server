@@ -67,7 +67,7 @@ app.use(cors({
 
 
 //THIS UNDERNEATH SHOULD PROBABLY BE DELETED
-/*
+
 app.use(session({
   httpOnly: true,
   secret: 'keyboard cat', //CHANGE THIS!
@@ -78,7 +78,7 @@ app.use(session({
     sameSite: "none"
   }
 }));
-*/
+
 const passport = require('./api/config/passport');
 app.use(passport.initialize()); // initializes authentication module
 app.use(passport.session())
