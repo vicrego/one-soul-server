@@ -175,7 +175,12 @@ router.post("/register", async (req, res) => {
 });
 
 router.post('/logout', function(req, res, next){  
-    res.cookie('jwt', "", { maxAge: 0 });
+    res.cookie('jwt', "", { 
+      httpOnly: true,
+      secure: true, 
+      sameSite: 'none', 
+      maxAge: 0 
+    });
     return res.status(201).json({ message: "Logged Out" });
 });
 
