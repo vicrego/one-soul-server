@@ -28,6 +28,7 @@ router.post('/login', (req, res, next) => {
     res.cookie('jwt', token, { 
       httpOnly: true, 
       secure: true, //SECURE MEANS ONLY RUNS ON HTTPS (NOT HTTP). SHOULD BE TRUE IN PRODUCTION
+      sameSite: 'none',
       maxAge: 3600000 
     }) 
      return res.status(200).json({ message: "Loggin succesful", userId: user.id });
@@ -159,7 +160,12 @@ router.post("/register", async (req, res) => {
         return next(err);
       }
       const token = jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, { expiresIn: '48h' });
-      res.cookie('jwt', token, { httpOnly: true, secure: true, maxAge: 48 * 60 * 60 * 1000 });
+      res.cookie('jwt', token, { 
+        httpOnly: true, 
+        secure: true, 
+        sameSite: 'none', 
+        maxAge: 48 * 60 * 60 * 1000 
+      });
       return res.status(201).json({ message: "User registered and logged in", userId: newUser.id });
     });
   } catch (err){
