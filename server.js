@@ -109,6 +109,9 @@ app.use(helmet());
 const authRoute = require("./api/routes/auth"); // Importing routes
 app.use("/auth", authRoute); // Authentication Route
 
+const userRoute = require("./api/routes/user"); // Importing routes
+app.use("/user", userRoute); // Authentication Route
+
 app.listen(process.env.PORT, () => {
   console.log(`App running on port ${process.env.PORT}.`);
 });

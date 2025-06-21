@@ -65,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    firstTimeEntry: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true, 
+    }
   }, {
     sequelize,
     modelName: 'User',

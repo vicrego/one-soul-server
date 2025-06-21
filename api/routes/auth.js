@@ -1,8 +1,9 @@
 //Defines the routes related to authentication (e.g., login, register, logout).
 
 var express = require('express');
-const passport = require('../config/passport');
 var router = express.Router();
+
+const passport = require('../config/passport');
 var LocalStrategy = require('passport-local');
 const bcrypt = require("bcrypt");
 const db = require("../../models/index");
@@ -55,6 +56,11 @@ router.post('/user', passport.authenticate('jwt', { session: false }), async (re
     res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
+
+
+
+
 
 router.get('/getUserProgress', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const userId = req.user.userId;
